@@ -124,7 +124,7 @@ class TestConduit:
         self.mp.do_click(MainPage.EDT_ART_FORM.DELETE_BUTTON)
         return in_article
 
-    def test_01(self):
+    def proba_test_01(self):
         user = self.data_for_test.REG_USER
         self.mp.go()
         assert self.mp.get_element(MainPage.NAV_BAR.SIGNUP_BUTTON, wtime=1)
@@ -172,12 +172,12 @@ class TestConduit:
         # self.mp.do_click(MainPage.NAV_BAR.LOGOUT_BUTTON, wtime=1)
         return None
 
-    def kesz_test_tc_01(self):
+    def test_tc_01(self):
         """Regisztráció"""
         self.__register(self.data_for_test.REG_USER)  # register a new  user, asserts inserted
+        assert not self.mp.get_element(MainPage.NAV_BAR.LOGOUT_BUTTON, wtime=3) # there is no 'Log out' button
         self.__login(self.data_for_test.REG_USER)  # login with the new, asserts inserted
-        assert self.mp.get_element(MainPage.NAV_BAR.HOME_BUTTON, wtime=5)
-        assert self.mp.get_element(MainPage.NAV_BAR.LOGOUT_BUTTON, wtime=5)
+        assert self.mp.get_element(MainPage.NAV_BAR.LOGOUT_BUTTON, wtime=3) # there is 'Log out' button
         self.__logout()
         return None
 
