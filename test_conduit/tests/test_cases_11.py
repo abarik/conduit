@@ -181,18 +181,19 @@ class TestConduit:
         self.__logout()
         return None
 
-    def kesz_test_tc_02(self):
+    def test_tc_02(self):
         """Bejelentkezés"""
         self.__login(self.data_for_test.GEN_USER)  # login, asserts inserted
-        assert self.mp.get_element(MainPage.NAV_BAR.LOGOUT_BUTTON, wtime=5)
+        assert self.mp.get_element(MainPage.NAV_BAR.LOGOUT_BUTTON, wtime=3) # there is 'Log out' button
         self.__logout()
         return None
 
-    def kesz_test_tc_03(self):
+    def test_tc_03(self):
         """Adatkezelési nyilatkozat használata"""
         self.mp.go()
-        self.mp.do_click(MainPage.HOME.ACCEPT_LINK, wtime=5)
-        assert not self.mp.get_element(MainPage.HOME.ACCEPT_LINK, wtime=1)  # accept link not reachable, ok
+        assert self.mp.get_element(MainPage.HOME.ACCEPT_LINK, wtime=1)  # accept link reachable
+        self.mp.do_click(MainPage.HOME.ACCEPT_LINK, wtime=1)
+        assert not self.mp.get_element(MainPage.HOME.ACCEPT_LINK, wtime=1)  # accept link not reachable
         return None
 
     def kesz_test_tc_04(self):
