@@ -1,20 +1,11 @@
 import csv
 import time
-
 import pandas as pd
+from selenium.common.exceptions import NoSuchElementException
 
 from test_conduit.config.browser import Browser
 from test_conduit.pages.main_page import MainPage
 from test_conduit.pages.base_page import Mode
-
-from selenium.common.exceptions import NoSuchElementException
-
-# options = Options()
-# options.add_experimental_option('prefs', {
-#     "download.prompt_for_download": False,
-#     "safebrowsing.enabled": True
-# })
-
 from test_conduit.config.data_for_test import DataForTest
 
 
