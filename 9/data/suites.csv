@@ -1,0 +1,2 @@
+"Status","Start Time","Stop Time","Duration in ms","Parent Suite","Suite","Sub Suite","Test Class","Test Method","Name","Description"
+"passed","Mon Jun 06 13:38:10 GMT 2022","Mon Jun 06 13:38:41 GMT 2022","30881","test_conduit.tests","test_cases_11","TestConduit","","","test_tc_01","Regisztráció"
