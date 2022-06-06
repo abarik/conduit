@@ -1,0 +1,6 @@
+"Status","Start Time","Stop Time","Duration in ms","Parent Suite","Suite","Sub Suite","Test Class","Test Method","Name","Description"
+"passed","Mon Jun 06 14:04:23 GMT 2022","Mon Jun 06 14:04:29 GMT 2022","5817","test_conduit.tests","test_cases_11","TestConduit","","","test_tc_05","Több oldalas lista bejárása"
+"passed","Mon Jun 06 14:02:39 GMT 2022","Mon Jun 06 14:03:10 GMT 2022","30824","test_conduit.tests","test_cases_11","TestConduit","","","test_tc_01","Regisztráció"
+"passed","Mon Jun 06 14:03:40 GMT 2022","Mon Jun 06 14:03:53 GMT 2022","13262","test_conduit.tests","test_cases_11","TestConduit","","","test_tc_03","Adatkezelési nyilatkozat használata"
+"passed","Mon Jun 06 14:03:21 GMT 2022","Mon Jun 06 14:03:29 GMT 2022","8797","test_conduit.tests","test_cases_11","TestConduit","","","test_tc_02","Bejelentkezés"
+"passed","Mon Jun 06 14:04:05 GMT 2022","Mon Jun 06 14:04:13 GMT 2022","8143","test_conduit.tests","test_cases_11","TestConduit","","","test_tc_04","Adatok listázása"
