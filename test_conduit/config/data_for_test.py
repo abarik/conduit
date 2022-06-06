@@ -7,8 +7,6 @@ import os
 class DataForTest:
     """Base URL - Conduit homepage from docker image"""
     BASE_URL = 'http://localhost:1667/'
-    # BASE_URL = 'https://psycho.unideb.hu/'
-
 
     """Data file for test data"""
     FILE_ARTICLE_DATA = 'article_test_data.txt'  # by https://www.mockaroo.com/
@@ -33,8 +31,9 @@ class DataForTest:
             self.password = password
 
     def __init__(self):
-        DataForTest.ARTICLE_TEST_DATA = pd.read_csv(os.path.realpath('test_conduit/config/' + DataForTest.FILE_ARTICLE_DATA),
-                                                    delimiter='\t')
+        DataForTest.ARTICLE_TEST_DATA = pd.read_csv(
+            os.path.realpath('test_conduit/config/' + DataForTest.FILE_ARTICLE_DATA),
+            delimiter='\t')
 
         """General User for all tests (except registrations testcase)"""
         name = DataForTest.random_username(8)
@@ -59,7 +58,6 @@ class DataForTest:
             'tag': DataForTest.random_username(15),
             'comments': ['Good post.', 'Thanks.', 'Átvíztűrő ütvefúrógép.']
         }
-
 
     @staticmethod
     def random_username(y):

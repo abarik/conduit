@@ -59,16 +59,22 @@ class BasePage:
 
     def get_elements(self, by_locator, wtime=None):
         if self.mode == Mode.WEBDRIVERWAIT:
-            elements = WebDriverWait(
-                self.driver, self.waiting_time if wtime is None else wtime).until(
-                EC.visibility_of_all_elements_located(by_locator))
+            try:
+                elements = WebDriverWait(
+                    self.driver, self.waiting_time if wtime is None else wtime).until(
+                    EC.visibility_of_all_elements_located(by_locator))
+            except TimeoutException:
+                elements = False
         else:
-            time.sleep(self.waiting_time if wtime is None else wtime)
-            elements = self.driver.find_elements_by_xpath(by_locator[1])
+            try:
+                time.sleep(self.waiting_time if wtime is None else wtime)
+                elements = self.driver.find_elements_by_xpath(by_locator[1])
+            except NoSuchElementException:
+                elements = False
         return elements
 
-    def get_element_attribute(self, by_locator, value):
-        element = self.get_element(by_locator)
+    def get_element_attribute(self, by_locator, value, wtime=None):
+        element = self.get_element(by_locator, wtime=wtime)
         try:
             attribute = element.get_attribute(value)
         except:

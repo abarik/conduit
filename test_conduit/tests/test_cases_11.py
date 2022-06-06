@@ -93,11 +93,11 @@ class TestConduit:
 
     def __in_pop_tags(self, text):
         try:
-            self.mp.do_click(MainPage.NAV_BAR.HOME_BUTTON)
+            self.mp.do_click(MainPage.NAV_BAR.HOME_BUTTON, wtime=1)
         except:
-            pass
+            assert False
 
-        pop_tags = self.mp.get_elements(MainPage.HOME.POPULAR_TAGS)
+        pop_tags = self.mp.get_elements(MainPage.HOME.POPULAR_TAGS, wtime=0.3)
         in_tags = False
         for tag in pop_tags:
             if MainPage.get_element_text_on_webelement(tag) == text:
@@ -106,13 +106,13 @@ class TestConduit:
         return in_tags
 
     def __delete_article_by_title(self, title):
-        self.mp.do_click(MainPage.NAV_BAR.HOME_BUTTON)
+        self.mp.do_click(MainPage.NAV_BAR.HOME_BUTTON, wtime=1)
         in_article = False
-        pages = self.mp.get_elements(MainPage.HOME.PAGES)
+        pages = self.mp.get_elements(MainPage.HOME.PAGES, wtime=0.5)
         article_found = None
         for page in pages:
             MainPage.do_click_on_webelement(page)
-            article_titles = self.mp.get_elements(MainPage.HOME.ARTICLES_TITLES)
+            article_titles = self.mp.get_elements(MainPage.HOME.ARTICLES_TITLES, wtime=0.2)
             for art in article_titles:
                 if MainPage.get_element_text_on_webelement(art) == title:
                     in_article = True
@@ -121,7 +121,7 @@ class TestConduit:
             if in_article:
                 break
         MainPage.do_click_on_webelement(article_found)
-        self.mp.do_click(MainPage.EDT_ART_FORM.DELETE_BUTTON)
+        self.mp.do_click(MainPage.EDT_ART_FORM.DELETE_BUTTON, wtime=1)
         return in_article
 
     def proba_test_01(self):
@@ -277,22 +277,24 @@ class TestConduit:
         self.__logout()
         return None
 
-    def kesz_test_tc_08(self):
+    def test_tc_08(self):
         """Meglévő adat módosítás"""
         self.__login(self.data_for_test.GEN_USER)  # login, asserts inserted
-        self.mp.do_click(MainPage.NAV_BAR.SETTINGS_BUTTON)
-        self.mp.get_url('settings')
-        self.mp.do_send_keys(MainPage.SETTINGS_FORM.SHORTBIO_TEXTAREA, self.data_for_test.SETTINGS_SHORT_BIO)
-        self.mp.do_click(MainPage.SETTINGS_FORM.UPDATE_SETTINGS_BUTTON)
-        self.mp.do_click(MainPage.SETTINGS_FORM.UPDATE_SUCCESS_OK_BUTTON)
-        self.mp.do_click(MainPage.NAV_BAR.HOME_BUTTON)
-        self.mp.do_click(MainPage.NAV_BAR.SETTINGS_BUTTON)
-        self.mp.get_url('settings')
+        self.mp.do_click(MainPage.NAV_BAR.SETTINGS_BUTTON, wtime=1)
+        self.mp.get_url('settings', wtime=2)
+        self.mp.do_send_keys(MainPage.SETTINGS_FORM.SHORTBIO_TEXTAREA, self.data_for_test.SETTINGS_SHORT_BIO, wtime=0.1)
+        self.mp.do_click(MainPage.SETTINGS_FORM.UPDATE_SETTINGS_BUTTON, wtime=0.1)
+        self.mp.do_click(MainPage.SETTINGS_FORM.UPDATE_SUCCESS_OK_BUTTON, wtime=0.1)
+        self.mp.do_click(MainPage.NAV_BAR.HOME_BUTTON, wtime=0.1)
+        self.mp.do_click(MainPage.NAV_BAR.SETTINGS_BUTTON, wtime=0.1)
+        self.mp.get_url('settings', wtime=1)
         assert self.data_for_test.SETTINGS_SHORT_BIO == self.mp.get_element_attribute(
             MainPage.SETTINGS_FORM.SHORTBIO_TEXTAREA,
-            'value')
+            'value', wtime=0.3)
+        self.__logout()
+        return None
 
-    def kesz_test_tc_09(self):
+    def test_tc_09(self):
         """Adat vagy adatok törlése"""
         self.__login(self.data_for_test.GEN_USER)  # login, asserts inserted
         self.__new_article(self.data_for_test.UNIQUE_ARTICLE['title'],
@@ -302,12 +304,14 @@ class TestConduit:
         assert self.__in_pop_tags(self.data_for_test.UNIQUE_ARTICLE['tag'])
         assert self.__delete_article_by_title(self.data_for_test.UNIQUE_ARTICLE['title'])
         assert not self.__in_pop_tags(self.data_for_test.UNIQUE_ARTICLE['tag'])
+        self.__logout()
+        return None
 
-    def kesz_test_tc_10(self):
+    def test_tc_10(self):
         """Adatok lementése felületről"""
         self.__login(self.data_for_test.GEN_USER)  # login, asserts inserted
 
-        pop_tags = self.mp.get_elements(self.mp.HOME.POPULAR_TAGS)
+        pop_tags = self.mp.get_elements(self.mp.HOME.POPULAR_TAGS, wtime=0.2)
         with open(self.data_for_test.OUT_FILE_POPULAR_TAGS, 'w', newline='') as csvfile:
             spamwriter = csv.writer(csvfile, delimiter=',')
             spamwriter.writerow(['Rank', 'Popular_tag'])
@@ -316,14 +320,14 @@ class TestConduit:
 
         pt_csv = pd.read_csv(self.data_for_test.OUT_FILE_POPULAR_TAGS)
         assert len(pop_tags) == len(pt_csv.index)
+        self.__logout()
+        return None
 
-    def kesz_test_tc_11(self):
+    def test_tc_11(self):
         """Kijelentkezés"""
+        assert not self.mp.get_element(MainPage.NAV_BAR.LOGOUT_BUTTON, wtime=3)  # there is no 'Log out' button
         self.__login(self.data_for_test.GEN_USER)  # login, asserts inserted
-        self.mp.do_click(MainPage.NAV_BAR.LOGOUT_BUTTON)
-        try:
-            self.mp.get_element(MainPage.NAV_BAR.SIGNIN_BUTTON)
-        except BaseException:
-            assert False
-        else:
-            assert True
+        assert self.mp.get_element(MainPage.NAV_BAR.LOGOUT_BUTTON, wtime=3)  # there is 'Log out' button
+        self.__logout()
+        assert not self.mp.get_element(MainPage.NAV_BAR.LOGOUT_BUTTON, wtime=3)  # there is no 'Log out' button
+        return None
