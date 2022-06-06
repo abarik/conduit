@@ -4,6 +4,8 @@ import time
 
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from selenium.common.exceptions import NoSuchElementException
+from selenium.common.exceptions import TimeoutException
 from datetime import datetime
 from enum import Enum
 
@@ -41,12 +43,18 @@ class BasePage:
 
     def get_element(self, by_locator, wtime=None):
         if self.mode == Mode.WEBDRIVERWAIT:
-            element = WebDriverWait(
-                self.driver, self.waiting_time if wtime is None else wtime).until(
-                EC.visibility_of_element_located(by_locator))
+            try:
+                element = WebDriverWait(
+                    self.driver, self.waiting_time if wtime is None else wtime).until(
+                    EC.visibility_of_element_located(by_locator))
+            except TimeoutException:
+                element = False
         else:
-            time.sleep(self.waiting_time if wtime is None else wtime)
-            element = self.driver.find_element_by_xpath(by_locator[1])
+            try:
+                time.sleep(self.waiting_time if wtime is None else wtime)
+                element = self.driver.find_element_by_xpath(by_locator[1])
+            except NoSuchElementException:
+                element = False
         return element
 
     def get_elements(self, by_locator, wtime=None):
