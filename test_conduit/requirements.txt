@@ -1,0 +1,7 @@
+pytest==7.1.2
+allure-pytest==2.9.45
+pandas
+selenium==3.141.0
+webdriver-manager==3.5.4
+
+
