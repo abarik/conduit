@@ -7,7 +7,6 @@ from test_conduit.config.browser import Browser
 from test_conduit.pages.main_page import MainPage
 from test_conduit.pages.base_page import Mode
 
-
 from selenium.common.exceptions import NoSuchElementException
 
 # options = Options()
@@ -16,7 +15,7 @@ from selenium.common.exceptions import NoSuchElementException
 #     "safebrowsing.enabled": True
 # })
 
-from test_conduit.config.config import DataForTest
+from test_conduit.config.data_for_test import DataForTest
 
 
 class TestConduit:
