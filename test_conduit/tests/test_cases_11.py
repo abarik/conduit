@@ -76,14 +76,14 @@ class TestConduit:
 
     def __new_article(self, title, about, body, *tags):
         try:
-            self.mp.do_click(MainPage.NAV_BAR.NEW_ARTICLE_BUTTON)
-            self.mp.get_url('editor')
-            self.mp.do_send_keys(MainPage.NEW_ART_FORM.ARTICLE_TITLE_FIELD, title)
-            self.mp.do_send_keys(MainPage.NEW_ART_FORM.ARTICLE_ABOUT_FIELD, about)
-            self.mp.do_send_keys(MainPage.NEW_ART_FORM.ARTICLE_TEXTAREA, body)
-            self.mp.do_send_keys(MainPage.NEW_ART_FORM.ARTICLE_TAG_FIELD, ';'.join(tags))
-            self.mp.do_click(MainPage.NEW_ART_FORM.ARTICLE_PUBLISH_BUTTON)
-            self.mp.get_url('articles')
+            self.mp.do_click(MainPage.NAV_BAR.NEW_ARTICLE_BUTTON, wtime=1)
+            self.mp.get_url('editor', wtime=1)
+            self.mp.do_send_keys(MainPage.NEW_ART_FORM.ARTICLE_TITLE_FIELD, title, wtime=0.1)
+            self.mp.do_send_keys(MainPage.NEW_ART_FORM.ARTICLE_ABOUT_FIELD, about, wtime=0.1)
+            self.mp.do_send_keys(MainPage.NEW_ART_FORM.ARTICLE_TEXTAREA, body, wtime=0.1)
+            self.mp.do_send_keys(MainPage.NEW_ART_FORM.ARTICLE_TAG_FIELD, ';'.join(tags), wtime=0.1)
+            self.mp.do_click(MainPage.NEW_ART_FORM.ARTICLE_PUBLISH_BUTTON, wtime=0.1)
+            self.mp.get_url('articles', wtime=1)
         except BaseException:
             self.mp.log_error('Inserting new article failed.')
             assert False
@@ -237,37 +237,45 @@ class TestConduit:
             assert True
 
         assert page_num > 0  # at least one page
+        self.__logout()
+        return None
 
-    def kesz_test_tc_06(self):
+    def test_tc_06(self):
         """Új adat bevitel"""
         self.__login(self.data_for_test.GEN_USER)  # login, asserts inserted
         self.__new_article(self.data_for_test.UNIQUE_ARTICLE_WITH_COMMENTS['title'],
                            self.data_for_test.UNIQUE_ARTICLE_WITH_COMMENTS['about'],
                            self.data_for_test.UNIQUE_ARTICLE_WITH_COMMENTS['body'],
-                           self.data_for_test.UNIQUE_ARTICLE_WITH_COMMENTS['tag'])
+                           self.data_for_test.UNIQUE_ARTICLE_WITH_COMMENTS['tag'])  # asserts inserted
         try:
+            # post a lot of comments (3)
             for comment in self.data_for_test.UNIQUE_ARTICLE_WITH_COMMENTS['comments']:
-                self.mp.do_send_keys(MainPage.EDT_ART_FORM.COMMENT_TEXTAREA, comment)
-                self.mp.do_click(MainPage.EDT_ART_FORM.POST_BUTTON)
+                self.mp.do_send_keys(MainPage.EDT_ART_FORM.COMMENT_TEXTAREA, comment, wtime=0.1)
+                self.mp.do_click(MainPage.EDT_ART_FORM.POST_BUTTON, wtime=0.1)
         except:
             assert False
         else:
             assert True
+        self.__logout()
+        return None
 
-    def kesz_test_tc_07(self):
+    def test_tc_07(self):
         """Ismételt és sorozatos adatbevitel adatforrásból"""
         self.__login(self.data_for_test.GEN_USER)  # login, asserts inserted
         j = 1
         try:
             for i in self.data_for_test.ARTICLE_TEST_DATA.index:
+                # store new articles up to ARTICLE_TEST_DATA_MAX_NUM
                 if j <= self.data_for_test.ARTICLE_TEST_DATA_MAX_NUM:
                     title, about, body, tag1, tag2, tag3 = self.data_for_test.ARTICLE_TEST_DATA.iloc[i]
                     self.__new_article(title, about, body, tag1, tag2, tag3)
                     j += 1
-        except BaseException:
+        except:
             assert False
         else:
             assert True
+        self.__logout()
+        return None
 
     def kesz_test_tc_08(self):
         """Meglévő adat módosítás"""
