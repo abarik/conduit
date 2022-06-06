@@ -175,16 +175,16 @@ class TestConduit:
     def test_tc_01(self):
         """Regisztráció"""
         self.__register(self.data_for_test.REG_USER)  # register a new  user, asserts inserted
-        assert not self.mp.get_element(MainPage.NAV_BAR.LOGOUT_BUTTON, wtime=3) # there is no 'Log out' button
+        assert not self.mp.get_element(MainPage.NAV_BAR.LOGOUT_BUTTON, wtime=3)  # there is no 'Log out' button
         self.__login(self.data_for_test.REG_USER)  # login with the new, asserts inserted
-        assert self.mp.get_element(MainPage.NAV_BAR.LOGOUT_BUTTON, wtime=3) # there is 'Log out' button
+        assert self.mp.get_element(MainPage.NAV_BAR.LOGOUT_BUTTON, wtime=3)  # there is 'Log out' button
         self.__logout()
         return None
 
     def test_tc_02(self):
         """Bejelentkezés"""
         self.__login(self.data_for_test.GEN_USER)  # login, asserts inserted
-        assert self.mp.get_element(MainPage.NAV_BAR.LOGOUT_BUTTON, wtime=3) # there is 'Log out' button
+        assert self.mp.get_element(MainPage.NAV_BAR.LOGOUT_BUTTON, wtime=3)  # there is 'Log out' button
         self.__logout()
         return None
 
@@ -196,13 +196,12 @@ class TestConduit:
         assert not self.mp.get_element(MainPage.HOME.ACCEPT_LINK, wtime=1)  # accept link not reachable
         return None
 
-    def kesz_test_tc_04(self):
+    def test_tc_04(self):
         """Adatok listázása"""
         self.__login(self.data_for_test.GEN_USER)  # login, asserts inserted
-        assert self.mp.get_element(MainPage.NAV_BAR.LOGOUT_BUTTON, wtime=16)
         article_links = []
         try:
-            pages = self.mp.get_elements(MainPage.HOME.PAGES, wtime=16)
+            pages = self.mp.get_elements(MainPage.HOME.PAGES, wtime=2)
             assert len(pages) > 0
             for page in pages:
                 MainPage.do_click_on_webelement(page)
@@ -213,7 +212,7 @@ class TestConduit:
             assert False
         else:
             assert True
-        assert len(article_links) > 0
+        assert len(article_links) > 0  # there is an article at least
         with open(self.data_for_test.OUT_FILE_ARTICLE_LINKS, 'w', newline='') as csvfile:
             spamwriter = csv.writer(csvfile, delimiter=',')
             spamwriter.writerow(['Rank', 'Link'])
@@ -223,17 +222,21 @@ class TestConduit:
         self.__logout()
         return None
 
-    def kesz_test_tc_05(self):
+    def test_tc_05(self):
         """Több oldalas lista bejárása"""
-        self.mp.do_click(MainPage.NAV_BAR.HOME_BUTTON)
+        self.__login(self.data_for_test.GEN_USER)  # login, asserts inserted
+        page_num = 0
         try:
-            pages = self.mp.get_elements(MainPage.HOME.PAGES)
+            pages = self.mp.get_elements(MainPage.HOME.PAGES, wtime=1)
             for page in pages:
                 MainPage.do_click_on_webelement(page)
+                page_num += 1
         except:
             assert False
         else:
             assert True
+
+        assert page_num > 0  # at least one page
 
     def kesz_test_tc_06(self):
         """Új adat bevitel"""
