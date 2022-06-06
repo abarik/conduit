@@ -1,8 +1,0 @@
-"Status","Start Time","Stop Time","Duration in ms","Parent Suite","Suite","Sub Suite","Test Class","Test Method","Name","Description"
-"passed","Mon Jun 06 14:27:50 GMT 2022","Mon Jun 06 14:28:01 GMT 2022","10839","test_conduit.tests","test_cases_11","TestConduit","","","test_tc_06","Új adat bevitel"
-"passed","Mon Jun 06 14:27:14 GMT 2022","Mon Jun 06 14:27:22 GMT 2022","8156","test_conduit.tests","test_cases_11","TestConduit","","","test_tc_04","Adatok listázása"
-"passed","Mon Jun 06 14:26:49 GMT 2022","Mon Jun 06 14:27:02 GMT 2022","13241","test_conduit.tests","test_cases_11","TestConduit","","","test_tc_03","Adatkezelési nyilatkozat használata"
-"passed","Mon Jun 06 14:26:29 GMT 2022","Mon Jun 06 14:26:38 GMT 2022","8812","test_conduit.tests","test_cases_11","TestConduit","","","test_tc_02","Bejelentkezés"
-"passed","Mon Jun 06 14:27:33 GMT 2022","Mon Jun 06 14:27:39 GMT 2022","6908","test_conduit.tests","test_cases_11","TestConduit","","","test_tc_05","Több oldalas lista bejárása"
-"passed","Mon Jun 06 14:28:12 GMT 2022","Mon Jun 06 14:29:43 GMT 2022","91786","test_conduit.tests","test_cases_11","TestConduit","","","test_tc_07","Ismételt és sorozatos adatbevitel adatforrásból"
-"passed","Mon Jun 06 14:25:48 GMT 2022","Mon Jun 06 14:26:19 GMT 2022","30877","test_conduit.tests","test_cases_11","TestConduit","","","test_tc_01","Regisztráció"
