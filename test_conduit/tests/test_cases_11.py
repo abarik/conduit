@@ -249,13 +249,16 @@ class TestConduit:
                            self.data_for_test.UNIQUE_ARTICLE_WITH_COMMENTS['tag'])  # asserts inserted
         try:
             # post a lot of comments (3)
+            i = 0
             for comment in self.data_for_test.UNIQUE_ARTICLE_WITH_COMMENTS['comments']:
                 self.mp.do_send_keys(MainPage.EDT_ART_FORM.COMMENT_TEXTAREA, comment, wtime=0.1)
                 self.mp.do_click(MainPage.EDT_ART_FORM.POST_BUTTON, wtime=0.1)
+                i += 1
         except:
             assert False
         else:
             assert True
+        assert i > 0 and len(self.data_for_test.UNIQUE_ARTICLE_WITH_COMMENTS['comments']) == i
         self.__logout()
         return None
 
@@ -274,6 +277,7 @@ class TestConduit:
             assert False
         else:
             assert True
+        assert j > self.data_for_test.ARTICLE_TEST_DATA_MAX_NUM  # j new articles stored
         self.__logout()
         return None
 
