@@ -124,54 +124,6 @@ class TestConduit:
         self.mp.do_click(MainPage.EDT_ART_FORM.DELETE_BUTTON, wtime=1)
         return in_article
 
-    def proba_test_01(self):
-        user = self.data_for_test.REG_USER
-        self.mp.go()
-        assert self.mp.get_element(MainPage.NAV_BAR.SIGNUP_BUTTON, wtime=1)
-        self.mp.do_click(MainPage.NAV_BAR.SIGNUP_BUTTON, wtime=2)
-        self.mp.get_url('register', wtime=2)  # waiting for url change
-        assert self.mp.get_element(MainPage.REG_FORM.SIGNUP_USERNAME_FIELD, wtime=1)
-        assert self.mp.get_element(MainPage.REG_FORM.SIGNUP_EMAIL_FIELD, wtime=1)
-        assert self.mp.get_element(MainPage.REG_FORM.SIGNUP_PASSWORD_FIELD, wtime=1)
-        assert self.mp.get_element(MainPage.REG_FORM.SIGNUP_FORM_BUTTON, wtime=1)
-        self.mp.do_send_keys(MainPage.REG_FORM.SIGNUP_USERNAME_FIELD, user.user_name, wtime=0.1)
-        self.mp.do_send_keys(MainPage.REG_FORM.SIGNUP_EMAIL_FIELD, user.user_email, wtime=0.1)
-        self.mp.do_send_keys(MainPage.REG_FORM.SIGNUP_PASSWORD_FIELD, user.password, wtime=0.1)
-        self.mp.do_click(MainPage.REG_FORM.SIGNUP_FORM_BUTTON, wtime=0.1)
-        assert self.mp.get_element(MainPage.REG_FORM.SIGNUP_SUCCESS_OK_BUTTON, wtime=1)
-        self.mp.do_click(MainPage.REG_FORM.SIGNUP_SUCCESS_OK_BUTTON, wtime=3)
-        # logout
-        try:
-            self.mp.do_click(MainPage.NAV_BAR.LOGOUT_BUTTON, wtime=1)
-        except:
-            pass
-
-        self.mp.go()
-        assert self.mp.get_element(MainPage.NAV_BAR.SIGNIN_BUTTON, wtime=1)
-        self.mp.do_click(MainPage.NAV_BAR.SIGNIN_BUTTON, wtime=2)
-        self.mp.get_url('login', wtime=2)  # waiting for url change
-        assert self.mp.get_element(MainPage.LOG_FORM.LOGIN_EMAIL_FIELD, wtime=1)
-        assert self.mp.get_element(MainPage.LOG_FORM.LOGIN_PASSWORD_FIELD, wtime=1)
-        assert self.mp.get_element(MainPage.LOG_FORM.LOGIN_FORM_BUTTON, wtime=1)
-        self.mp.do_send_keys(MainPage.LOG_FORM.LOGIN_EMAIL_FIELD, user.user_email, wtime=0.1)
-        self.mp.do_send_keys(MainPage.LOG_FORM.LOGIN_PASSWORD_FIELD, user.password, wtime=0.1)
-        self.mp.save_screen()
-        self.mp.do_click(MainPage.LOG_FORM.LOGIN_FORM_BUTTON, wtime=0.1)
-        self.mp.save_screen()
-        assert self.mp.get_element(MainPage.NAV_BAR.LOGOUT_BUTTON, wtime=15)
-        time.sleep(10)
-        try:
-            logo = self.browser.find_element_by_xpath('//a[contains(text(), "Log out")]')
-        except NoSuchElementException:
-            assert False
-        else:
-            assert True
-
-        # self.mp.save_screen()
-        # # logout
-        # self.mp.do_click(MainPage.NAV_BAR.LOGOUT_BUTTON, wtime=1)
-        return None
-
     def test_tc_01(self):
         """Regisztráció"""
         self.__register(self.data_for_test.REG_USER)  # register a new  user, asserts inserted
